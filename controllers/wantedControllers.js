@@ -3,11 +3,9 @@ const Wanted = require('../models/wantedModel');
 const createWanted = async (req, res) => {
 try {
     const { playlist, collection } = req.body;
-
     if (!playlist || !collection) {
         return res.status(400).json({ message: 'All fields are required' });
     }
-
     const newWanted = new Wanted({ playlist, collection });
     await newWanted.save();
     res.status(201).json({ message: 'Wanted created successfully', wanted: newWanted });
