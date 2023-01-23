@@ -13,13 +13,14 @@ const collectionSchema = new mongoose.Schema({
     },
     text: {
         type: String,
+        required: false,
     },
     date: {
         type: Date,
         default: Date.now,
     },
     wanted : [{
-        type : Object,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'Wanted',
         required : false,
     }],
