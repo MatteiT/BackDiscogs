@@ -14,13 +14,22 @@ const userSchema = new mongoose.Schema(
     email: {
         type: String,
         required: true,
-        unique: true
-        },
-    role : [{
+        lowercase: true,
+        unique: true,
+        validate: {
+            validator: function(value) {
+                return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value);
+            },
+            message: "Invalid email format"
+        }
+    },
+    role : {
         type: String,
         default : 'user',
-        enum: ['user', 'admin']
-    }],
+        enum: ['user', 'admin'],
+        lowercase: true,
+        select: false
+    },
     usercollection: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Collection'

@@ -13,7 +13,6 @@ const getUsers = async (req, res) => {
     res.json(users);
 };
 
-
 // @desc    Get user by ID
 // @route   GET /users/:id
 // @access  Private
@@ -43,7 +42,6 @@ const createNewUser = async (req, res) => {
         res.status(409);
         throw new Error('User already exists');
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ username, password: hashedPassword, email});
     if (newUser) {
@@ -64,12 +62,10 @@ const updateUser = async (req, res) => {
     if (!id || !username || !email) {
         return res.status(400).json({ message: 'All fields are required' })
     }
-
     const user = await User.findById(id).exec()
     if (!user) {
         return res.status(400).json({ message: 'User not found' })
     }
-
     user.username = username
     user.email = email
     if (password) {

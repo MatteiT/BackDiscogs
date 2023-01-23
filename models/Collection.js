@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const collectionSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
-        ref: 'User'
     },
     title: {
         type: String,
         required: true,
+        unique: true,
     },
     text: {
         type: String,
@@ -16,22 +17,12 @@ const collectionSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now,
-        immutable: true
     },
-    collectionId: {
-        type: Number
-    },
-    Artist : [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Artist'
+    wanted : [{
+        type : Object,
+        ref : 'Wanted',
+        required : false,
     }],
-    Album : [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Album'
-    }],
-    Wanted : [{
-        type : String
-    }]
 },
 {
     timestamps: true
