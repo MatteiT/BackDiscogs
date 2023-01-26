@@ -13,7 +13,6 @@ const helmet = require('helmet');
 const rateLimit = require("express-rate-limit");
 const mongoSanitize = require('express-mongo-sanitize');
 
-
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100, // limit each IP to 100 requests per windowMs
@@ -28,14 +27,11 @@ const limiter = rateLimit({
     app.use(helmet());
     app.use(mongoSanitize());
 
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', require('./routes/root'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/users', require('./routes/userRoute'));
 app.use('/collections', require('./routes/collectionRoute'));
-
 
 mongoose.connection.once('open', () => {
     console.log('Connected to database');

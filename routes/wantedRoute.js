@@ -8,7 +8,7 @@ router.use(verifyJWT);
 
 // Route for handling wanted operations
 router.route('/')
-.get(wantedControllers.getWanted)
+.get(wantedControllers.getAllWanteds)
 .post(wantedControllers.createWanted)
 
 // Route for handling operations on a specific wanted by id

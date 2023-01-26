@@ -58,30 +58,25 @@ const createCollection = async (req, res) => {
 // @route   PATCH /collections/:id
 // @access  Private/Admin
 const updateCollection = async (req, res) => {
-    const { _id } = req.params;
     const { title, text } = req.body;
-    
-    const collection = await Collection.findById(_id);
-    if (!collection) {
-        return res.status(404).json({ message: 'Collection not found' });
-    }
-    if (collection.user !== req.user.id) {
-        return res.status(401).json({ message: 'Not authorized to update this collection' });
-    }
     if (!title) {
-        return res.status(400).json({ message: 'Title field is required' });
+        return res.status(400).json({ message: 'title is required' });
     }
-    const collectionExists = await Collection.findOne({ title, user: req.user.id });
-    if (collectionExists) {
-        return res.status(409).json({ message: 'Collection title already exists' });
+
+    const collection = await Collection.findOneAndUpdate(
+        { _id : req.params.id },
+        { $set: { title, text } },
+        { new: true }
+    );
+
+    if (collection) {
+        res.status(200).json({ message: 'Collection updated successfully', collection });
+    } else {
+        res.status(400).json({ message: 'Invalid collection data' });
     }
-    collection.title = title;
-    if (text) {
-        collection.text = text;
-    }
-    await collection.save();
-    res.json({ message: 'Collection updated successfully', collection });
 };
+
+
 
 
 // @desc    Delete collection
